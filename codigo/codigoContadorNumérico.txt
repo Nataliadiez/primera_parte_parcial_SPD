@@ -1,0 +1,182 @@
+/*
+-----------CONSIGNA PRIMERA PARTE DEL PARCIAL----------------------------------
+	Diseñar un contador de 0 a 99 utilizando dos displays de 7 segmentos y tres botones para controlar la cuenta.
+    Debes implementar la técnica de multiplexación para mostrar los dígitos en los displays.
+    El contador debe comenzar en 0 y debes ser capaz de aumentar o disminuir su valor en una unidad con los botones.
+    
+---------------------------------------------------------------------
+*/
+
+#define B 13
+#define A 12
+#define F 11
+#define G 10
+#define E 7
+#define D 6
+#define C 5
+#define botonIncrementar 4
+#define botonReducir 3
+#define botonReiniciar 2
+#define displayUnidad A4
+#define displayDecena A5
+
+int contador = 0;
+int contadorDigito = 0;
+int decena;
+int unidad;
+unsigned long tiempoAnterior = 0;
+int intervaloDeTiempo = 200;
+
+void encenderSegmento(int sf, int sa, int sb, int sg, int se, int sd, int sc);
+void encenderDisplay(int estadoDecena, int estadoUnidades);
+void mostrarNumeroEnDisplay(int numero);
+
+/**
+ * Funcion que setea los pines de los display y los botones
+ */
+void setup()
+{
+  pinMode(A,OUTPUT);
+  pinMode(B,OUTPUT);
+  pinMode(C,OUTPUT);
+  pinMode(D,OUTPUT);
+  pinMode(E,OUTPUT);
+  pinMode(F,OUTPUT);
+  pinMode(G,OUTPUT);
+  pinMode(botonIncrementar, INPUT_PULLUP);
+  pinMode(botonReducir, INPUT_PULLUP);
+  pinMode(botonReiniciar, INPUT_PULLUP);
+  pinMode(displayUnidad, OUTPUT);
+  pinMode(displayDecena, OUTPUT);
+  Serial.begin(9600);
+}
+
+/**
+ * comienzo del contador numerico 
+ */
+void loop()
+{
+  unsigned long tiempoActual = millis();
+  if (tiempoActual - tiempoAnterior >= intervaloDeTiempo) {
+    tiempoAnterior = tiempoActual;
+  
+    if (digitalRead(botonIncrementar) == LOW)
+    {
+      contador++;
+      if(contador > 99)
+      {
+        contador = 0;
+      }
+    }
+
+    if(digitalRead(botonReducir) == LOW)
+    {
+      contador--;
+      if(contador < 0)
+      {
+        contador = 99;
+      }
+    }
+    if(digitalRead(botonReiniciar) == LOW)
+    {
+      contador = 0;
+      decena = 0;
+      unidad = 0;
+    }
+  }
+  
+  mostrarNumeroEnDisplay(contador);
+}
+
+/**
+ * Funcion que enciende los segmentos según el valor que reciben los parámetros (0, 1)
+ * @param sa posicion segmento A.
+ * @param sb posicion segmento B.
+ * @param sc posicion segmento C.
+ * @param sd posicion segmento D.
+ * @param se posicion segmento E.
+ * @param sf posicion segmento F.
+ * @param sg posicion segmento G.
+ */
+void encenderSegmento(int sf, int sa, int sb, int sg, int se, int sd, int sc)
+{
+  digitalWrite(F, sf);
+  digitalWrite(A, sa);
+  digitalWrite(B, sb);
+  digitalWrite(G, sg);
+  digitalWrite(E, se);
+  digitalWrite(D, sd);
+  digitalWrite(C, sc);
+}
+
+/**
+ * Función que establece el orden de display a utilizar
+ * @param numero entero que representa el numero a mostrar
+ */
+void seleccionarNumero(int numero)
+{
+  switch(numero)
+  {
+    case 0:
+        encenderSegmento(1,1,1,0,1,1,1); 
+        break;
+    case 1: 
+        encenderSegmento(0,0,1,0,0,0,1); 
+        break;
+    case 2: 
+        encenderSegmento(0,1,1,1,1,1,0); 
+        break;
+    case 3: 
+        encenderSegmento(0,1,1,1,0,1,1); 
+        break;
+    case 4: 
+        encenderSegmento(1,0,1,1,0,0,1); 
+        break;
+    case 5: 
+        encenderSegmento(1,1,0,1,0,1,1); 
+        break;
+    case 6: 
+        encenderSegmento(1,1,0,1,1,1,1); 
+        break;
+    case 7: 
+      	encenderSegmento(0,1,1,0,0,0,1); 
+        break;
+    case 8:
+        encenderSegmento(1,1,1,1,1,1,1); 
+        break;
+    case 9: 
+        encenderSegmento(1,1,1,1,0,1,1); 
+      break;
+  }
+}
+
+
+/**
+ * Función que establece el encendido de los display
+ * @param estadoDecena estado del display de decenas
+ * @param estadoUnidades estado del display de unidades
+ */
+void encenderDisplay(int estadoDecena, int estadoUnidades)
+{
+  digitalWrite(displayDecena, estadoDecena);
+  digitalWrite(displayUnidad, estadoUnidades);
+}
+
+/*
+* Función que se encarga de mostrar un número en los display de 7 segmentos.
+* @param numero número entero que se desea mostrar en los display.
+*/
+void mostrarNumeroEnDisplay(int numero){
+    int decena = numero / 10;
+    int unidad = numero % 10;
+    seleccionarNumero(decena);
+    encenderDisplay(0,1);
+    delay(10);
+    encenderDisplay(1,1);
+    seleccionarNumero(unidad);
+    encenderDisplay(1,0);
+    delay(10);
+    encenderDisplay(1,1);
+}
+
+
