@@ -24,6 +24,7 @@ int contador = 0;
 int contadorDigito = 0;
 int decena;
 int unidad;
+// Almacena el tiempo en milisegundos del último evento
 unsigned long tiempoAnterior = 0;
 int intervaloDeTiempo = 200;
 
@@ -56,8 +57,10 @@ void setup()
  */
 void loop()
 {
+  // Obtiene el tiempo actual en milisegundos
   unsigned long tiempoActual = millis();
   if (tiempoActual - tiempoAnterior >= intervaloDeTiempo) {
+    // Actualiza el valor de previousMillis al tiempo actual
     tiempoAnterior = tiempoActual;
   
     if (digitalRead(BOTON_INCREMENTAR) == LOW)
