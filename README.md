@@ -1,21 +1,21 @@
-# Ejemplo Documentación 
+# Proyecto primera parte
 ![Tinkercad](./img/ArduinoTinkercad.jpg)
 
 
-## Integrantes 
+# Integrantes 
 - Oscar Alonso
 - Andrés Anguindegui
 - Natalia Diez
 
 
-## Proyecto: Contador de 0 a 99 con Display 7 Segmentos y Multiplexación.
+# Proyecto: Contador de 0 a 99 con Display 7 Segmentos y Multiplexación.
 ![Tinkercad](./img/Proyecto_1.png)
 
 
-## Descripción
+# Descripción
 El proyecto consiste en la creación de un contador numérico que permite contar desde 0 hasta 99 de forma ascendente, descendente y reiniciar el valor a 0. La información se muestra en dos displays de 7 segmentos y se controla a través de tres botones.
 
-## Funciones
+# Funciones
 ## encenderSegmento
 La función encenderSegmento es una función utilizada para controlar la visualización en un display de 7 segmentos. 
 A través de esta función, se pueden encender o apagar segmentos específicos del display, permitiendo mostrar dígitos numéricos.
@@ -117,21 +117,20 @@ Parámetros
 
 Divide el número en sus dígitos de decena y unidad, y luego activa los segmentos correspondientes en el display para representar estos dígitos en orden.
 
-# multiplexación
-
-
+## multiplexación
+En este proyecto se utiliza la técnica de la multiplexación, en la función mostrarNumeroEnDisplay, la cual combina los dos canales de información (DISPLAY_DECENA y DISPLAY_UNIDAD) utilizando un sólo medio de transmisión (a través de los mismos pines).
+Cuando DISPLAY_DECENA se establece en 0, el display de las decenas se activa y se muestra la cifra correspondiente. Luego, después de un pequeño retraso (delay(10)), se cambia el estado de DISPLAY_DECENA a 1, lo que apaga el display de las decenas.
+Después de mostrar la decena, el programa selecciona y muestra la unidad de manera similar, pero esta vez en el display de unidades.
 ## :robot: Link al proyecto
 - [proyecto](https://www.tinkercad.com/things/j40rAgclUkK?sharecode=b2bka0rRlvn-AzD361vmAIcUtyY4SqD0foQZywS3EkY)
 
 ---
 ### Fuentes
-- [Consejos para documentar](https://www.sohamkamani.com/how-to-write-good-documentation/#architecture-documentation).
+- [Video de la cátedra](https://www.youtube.com/watch?v=_Ry7mtURGDE&list=PL7LaR6_A2-E11BQXtypHMgWrSR-XOCeyD&index=4&t=3445s&ab_channel=UTNFRA).
 
-- [Lenguaje Markdown](https://markdown.es/sintaxis-markdown/#linkauto).
+- [Teoría multiplexación](https://teoriadelastelecomunicaciones.files.wordpress.com/2011/11/multiplexacion.pdf).
 
-- [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
-
-- [Tutorial](https://www.youtube.com/watch?v=oxaH9CFpeEE).
+- [Captura de imágenes](https://www.tinkercad.com/).
 
 - [Emojis](https://gist.github.com/rxaviers/7360908).
 
